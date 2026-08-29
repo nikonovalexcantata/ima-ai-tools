@@ -6,19 +6,29 @@ This repository is a catalog. It does not contain skill code. Each entry points 
 
 ## Use
 
-Add the marketplace one time on each computer.
+### Add the marketplace
+
+Do this one time on each computer.
 
 ```
 claude plugin marketplace add nikonovalexcantata/ima-ai-tools
 ```
 
-Install a skill by its name from the catalog.
+### Install a skill
+
+Use the name of the skill from the catalog.
 
 ```
 claude plugin install <skill-name>@ima-ai-tools
 ```
 
-Get new entries with `claude plugin marketplace update ima-ai-tools`.
+### Update the catalog
+
+New skills come into the catalog with time. This command gets them.
+
+```
+claude plugin marketplace update ima-ai-tools
+```
 
 ## Catalog
 
