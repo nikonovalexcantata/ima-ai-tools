@@ -1,2 +1,33 @@
 # ima-ai-tools
-Curated Claude Code skills for the team
+
+A marketplace of Claude Code skills for the team.
+
+This repository is a catalog. It does not contain skill code. Each entry points to a skill in a public repository, and the owner of that repository keeps the code.
+
+## Use
+
+Add the marketplace one time on each computer.
+
+```
+claude plugin marketplace add nikonovalexcantata/ima-ai-tools
+```
+
+Install a skill by its name from the catalog.
+
+```
+claude plugin install <skill-name>@ima-ai-tools
+```
+
+Get new entries with `claude plugin marketplace update ima-ai-tools`.
+
+## Catalog
+
+The page `docs/index.html` shows all of the skills.
+
+## Ask for a new skill
+
+Make an issue. Give the address of the source repository and the problem that the skill solves.
+
+## License
+
+The MIT license applies to the files in this repository. The license of each skill stays with its owner.
