@@ -1,0 +1,155 @@
+{
+  "name": "ima-ai-tools",
+  "owner": {
+    "name": "Alex Nikonov",
+    "url": "https://github.com/nikonovalexcantata"
+  },
+  "description": "Curated Claude Code skills for the team. Entries reference upstream repositories; no code is vendored here.",
+  "plugins": [
+    {
+      "name": "grilling",
+      "description": "A relentless interview that stress-tests a plan, decision, or idea until the holes show.",
+      "strict": false,
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/mattpocock/skills.git",
+        "path": "skills/productivity"
+      },
+      "skills": [
+        "./grilling",
+        "./grill-me"
+      ],
+      "metadata": {
+        "upstream": "https://github.com/mattpocock/skills/tree/main/skills/productivity/grilling",
+        "featured": true,
+        "whenToUse": [
+          "A plan looks solid and you want it attacked before you commit to it.",
+          "You are about to make a decision you will live with for months.",
+          "A spec has gaps you can feel but cannot name yet."
+        ],
+        "note": "Type /grill-me to start the interview on demand."
+      }
+    },
+    {
+      "name": "handoff",
+      "description": "Compacts the current conversation into a handoff document another agent can pick up.",
+      "strict": false,
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/mattpocock/skills.git",
+        "path": "skills/productivity"
+      },
+      "skills": [
+        "./handoff"
+      ],
+      "metadata": {
+        "upstream": "https://github.com/mattpocock/skills/tree/main/skills/productivity/handoff",
+        "whenToUse": [
+          "The context window is filling up and the work is not done.",
+          "You are handing the task to another session or a teammate tomorrow.",
+          "A long investigation produced state worth carrying over, not re-deriving."
+        ]
+      }
+    },
+    {
+      "name": "skill-creator",
+      "description": "Creates new skills, improves existing ones, and measures whether they actually trigger.",
+      "strict": false,
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/anthropics/skills.git",
+        "path": "skills"
+      },
+      "skills": [
+        "./skill-creator"
+      ],
+      "metadata": {
+        "upstream": "https://github.com/anthropics/skills/tree/main/skills/skill-creator",
+        "whenToUse": [
+          "You are writing your first skill and want the canonical structure.",
+          "A skill exists but does not trigger when it should.",
+          "You want to eval a skill's performance instead of guessing."
+        ]
+      }
+    },
+    {
+      "name": "frontend-design",
+      "description": "Anthropic's guidance for distinctive, intentional UI — aesthetic direction that does not read as templated defaults.",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/anthropics/claude-code.git",
+        "path": "plugins/frontend-design"
+      },
+      "metadata": {
+        "upstream": "https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design",
+        "whenToUse": [
+          "You are building new UI and want it to not look like a template.",
+          "An existing screen works but reads as generic defaults.",
+          "A demo or an internal page must look presentable and there is no designer around."
+        ]
+      }
+    },
+    {
+      "name": "agent-browser",
+      "description": "Browser automation CLI for agents: navigate, fill forms, click, screenshot, extract data.",
+      "strict": false,
+      "source": {
+        "source": "github",
+        "repo": "vercel-labs/agent-browser"
+      },
+      "skills": [
+        "./skills/agent-browser"
+      ],
+      "metadata": {
+        "upstream": "https://github.com/vercel-labs/agent-browser/tree/main/skills/agent-browser",
+        "badges": [
+          { "kind": "attention", "text": "needs CLI" }
+        ],
+        "whenToUse": [
+          "A change needs checking in a real browser, not just in tests.",
+          "You want the agent to click through a flow or take screenshots.",
+          "Scraping or automating a site would be faster than doing it by hand."
+        ],
+        "note": "Install the CLI once: npm i -g agent-browser && agent-browser install."
+      }
+    },
+    {
+      "name": "sideshow",
+      "description": "A live visual surface in your browser: the agent publishes HTML previews, your comments stream back as notifications.",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/modem-dev/sideshow.git",
+        "path": "plugin"
+      },
+      "metadata": {
+        "upstream": "https://github.com/modem-dev/sideshow/tree/main/plugin",
+        "badges": [
+          { "kind": "mcp", "text": "MCP server" }
+        ],
+        "whenToUse": [
+          "You need to see a diagram or a UI sketch to judge it, not read a description of it.",
+          "You want to comment on a specific part and have the agent pick that up mid-task."
+        ],
+        "note": "Asks for your sideshow server URL on install; local default is http://localhost:8228."
+      }
+    },
+    {
+      "name": "context-mode",
+      "description": "Keeps big tool output out of the context window: sandboxed execution, persistent session memory, searchable findings.",
+      "source": {
+        "source": "github",
+        "repo": "mksglu/context-mode"
+      },
+      "metadata": {
+        "upstream": "https://github.com/mksglu/context-mode",
+        "badges": [
+          { "kind": "mcp", "text": "MCP + hooks" }
+        ],
+        "whenToUse": [
+          "Long sessions die on log dumps, big diffs, or test output.",
+          "You want earlier findings searchable instead of re-derived."
+        ]
+      }
+    }
+  ]
+}

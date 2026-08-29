@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ima-ai-tools</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue:            oklch(0.50 0.18 256);
+    --blue-deep:       oklch(0.43 0.17 256);
+    --blue-tint:       oklch(0.95 0.03 256);
+    --ink:             oklch(0.27 0.03 262);
+    --ink-secondary:   oklch(0.45 0.02 262);
+    --ink-muted:       oklch(0.52 0.018 262);
+    --ink-faint:       oklch(0.64 0.015 262);
+    --shell:           oklch(0.96 0.006 252);
+    --surface:         oklch(0.995 0.001 252);
+    --panel:           oklch(0.975 0.005 252);
+    --panel-2:         oklch(0.985 0.003 252);
+    --border:          oklch(0.90 0.008 252);
+    --border-strong:   oklch(0.82 0.012 252);
+    --border-faint:    oklch(0.93 0.006 252);
+    --attention-ink:   oklch(0.46 0.11 65);
+    --attention-tint:  oklch(0.94 0.06 80);
+    --success-ink:     oklch(0.40 0.11 150);
+    --success-tint:    oklch(0.94 0.045 150);
+    --font-ui:   Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-data: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --console-bg:      oklch(0.25 0.025 262);
+    --console-border:  oklch(0.36 0.025 262);
+    --console-text:    oklch(0.93 0.008 252);
+    --console-comment: oklch(0.62 0.015 262);
+    --console-accent:  oklch(0.72 0.13 256);
+    --console-success: oklch(0.78 0.10 150);
+    --r-sm: 4px; --r-md: 6px; --r-lg: 10px; --r-pill: 999px;
+    --shadow-lifted: 0 1px 2px oklch(0.27 0.03 262 / 0.06), 0 2px 8px oklch(0.27 0.03 262 / 0.10);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Dark palette: same hues, flipped lightness. Applied for OS dark unless the
+     viewer explicitly picked light, and always when the viewer picked dark. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --blue:            oklch(0.62 0.16 256);
+      --blue-deep:       oklch(0.72 0.13 256);
+      --blue-tint:       oklch(0.30 0.06 256);
+      --ink:             oklch(0.92 0.01 262);
+      --ink-secondary:   oklch(0.78 0.015 262);
+      --ink-muted:       oklch(0.70 0.015 262);
+      --ink-faint:       oklch(0.58 0.015 262);
+      --shell:           oklch(0.20 0.015 262);
+      --surface:         oklch(0.245 0.018 262);
+      --panel:           oklch(0.27 0.018 262);
+      --panel-2:         oklch(0.255 0.017 262);
+      --border:          oklch(0.34 0.02 262);
+      --border-strong:   oklch(0.44 0.02 262);
+      --border-faint:    oklch(0.30 0.018 262);
+      --attention-ink:   oklch(0.80 0.10 70);
+      --attention-tint:  oklch(0.32 0.05 70);
+      --success-ink:     oklch(0.78 0.10 150);
+      --success-tint:    oklch(0.30 0.05 150);
+      --console-bg:      oklch(0.17 0.015 262);
+      --console-border:  oklch(0.33 0.02 262);
+      --shadow-lifted: 0 1px 2px oklch(0 0 0 / 0.35), 0 2px 8px oklch(0 0 0 / 0.40);
+    }
+  }
+  :root[data-theme="dark"] {
+    --blue:            oklch(0.62 0.16 256);
+    --blue-deep:       oklch(0.72 0.13 256);
+    --blue-tint:       oklch(0.30 0.06 256);
+    --ink:             oklch(0.92 0.01 262);
+    --ink-secondary:   oklch(0.78 0.015 262);
+    --ink-muted:       oklch(0.70 0.015 262);
+    --ink-faint:       oklch(0.58 0.015 262);
+    --shell:           oklch(0.20 0.015 262);
+    --surface:         oklch(0.245 0.018 262);
+    --panel:           oklch(0.27 0.018 262);
+    --panel-2:         oklch(0.255 0.017 262);
+    --border:          oklch(0.34 0.02 262);
+    --border-strong:   oklch(0.44 0.02 262);
+    --border-faint:    oklch(0.30 0.018 262);
+    --attention-ink:   oklch(0.80 0.10 70);
+    --attention-tint:  oklch(0.32 0.05 70);
+    --success-ink:     oklch(0.78 0.10 150);
+    --success-tint:    oklch(0.30 0.05 150);
+    --console-bg:      oklch(0.17 0.015 262);
+    --console-border:  oklch(0.33 0.02 262);
+    --shadow-lifted: 0 1px 2px oklch(0 0 0 / 0.35), 0 2px 8px oklch(0 0 0 / 0.40);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--shell);
+    color: var(--ink);
+    font: 400 15px/1.55 var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--blue-deep); }
+  code, pre { font-family: var(--font-data); }
+
+  .wide { max-width: 1420px; margin: 0 auto; padding: 0 22px; }
+
+  /* ---------- Masthead ---------- */
+  .masthead { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .masthead .wide { padding-top: 26px; padding-bottom: 30px; }
+
+  .head-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(420px, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+  h1 {
+    margin: 0 0 12px;
+    font-size: clamp(26px, 3vw, 38px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  h1 .rule {
+    display: block;
+    width: 72px;
+    height: 3px;
+    background: var(--blue);
+    border-radius: 2px;
+    margin-bottom: 18px;
+  }
+  .lede { margin: 0; max-width: 60ch; font-size: 16px; color: var(--ink-secondary); }
+  .lede code { font-size: 14px; }
+
+  .setup {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 16px 18px 18px;
+  }
+  .setup h2 {
+    margin: 0 0 4px;
+    font-family: var(--font-data);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .setup p { margin: 0 0 12px; font-size: 13px; color: var(--ink-secondary); }
+  .setup p:last-child { margin: 10px 0 0; }
+
+  pre {
+    margin: 0;
+    padding: 10px 12px;
+    background: var(--console-bg);
+    border: 1px solid var(--console-border);
+    border-radius: var(--r-md);
+    font-size: 12.5px;
+    line-height: 1.75;
+    color: var(--console-text);
+    white-space: pre;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding-right: 58px;
+  }
+  pre::-webkit-scrollbar { height: 7px; }
+  pre::-webkit-scrollbar-track { background: transparent; }
+  pre::-webkit-scrollbar-thumb { background: var(--console-border); border-radius: 999px; }
+  pre { scrollbar-width: thin; scrollbar-color: var(--console-border) transparent; }
+  pre .c { color: var(--console-comment); }
+
+  .snip { position: relative; }
+  .snip .copy {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-family: var(--font-data);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--console-comment);
+    background: var(--console-bg);
+    border: 1px solid var(--console-border);
+    border-radius: var(--r-sm);
+    padding: 3px 7px;
+    cursor: pointer;
+    transition: color 150ms var(--ease), border-color 150ms var(--ease);
+  }
+  .snip .copy:hover { color: var(--console-accent); border-color: var(--console-accent); }
+  .snip .copy[data-done="1"] { color: var(--console-success); border-color: var(--console-success); }
+
+  /* ---------- Sections ---------- */
+  section { padding-top: 40px; }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border-strong);
+    padding-bottom: 10px;
+    margin-bottom: 22px;
+  }
+  .sec-head h2 { margin: 0; font-size: 19px; font-weight: 600; letter-spacing: -0.015em; }
+  .count {
+    font-family: var(--font-data);
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--blue);
+  }
+  .sec-head p { margin: 0 0 0 auto; max-width: 66ch; font-size: 13px; color: var(--ink-secondary); }
+
+  /* ---------- Card grid ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+  @media (max-width: 1180px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 760px)  { .grid { grid-template-columns: 1fr; } }
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 18px 20px 20px;
+    transition: border-color 150ms var(--ease), box-shadow 150ms var(--ease);
+  }
+  .card:hover { border-color: var(--border-strong); box-shadow: var(--shadow-lifted); }
+  .card-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .card h3 {
+    margin: 0;
+    font-family: var(--font-data);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+  .card h3 a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--border-strong); }
+  .card h3 a:hover { color: var(--blue); border-color: var(--blue); }
+  .what { margin: 0 0 15px; font-size: 13.5px; color: var(--ink-secondary); }
+
+  .badge {
+    font-family: var(--font-data);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: var(--r-pill);
+    background: var(--attention-tint);
+    color: var(--attention-ink);
+    white-space: nowrap;
+  }
+  .badge.mcp  { background: var(--blue-tint);    color: var(--blue-deep); }
+  .badge.skin { background: var(--success-tint); color: var(--success-ink); }
+  .badge.ext  { background: var(--panel); color: var(--ink-muted); border: 1px solid var(--border); }
+
+  .label {
+    display: inline-block;
+    margin: 0 0 8px;
+    padding: 3px 8px;
+    border-radius: var(--r-sm);
+    background: var(--blue-tint);
+    font-family: var(--font-data);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+  }
+  .when { margin: 0 0 15px; padding: 0; list-style: none; }
+  .when li { position: relative; padding-left: 16px; margin-bottom: 6px; font-size: 13.5px; }
+  .when li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 7px;
+    width: 5px;
+    height: 5px;
+    border-radius: 1px;
+    background: var(--blue);
+  }
+
+  .install { margin-top: auto; }
+  .install pre { font-size: 12px; }
+  .note { margin: 10px 0 0; font-size: 12.5px; color: var(--ink-muted); }
+  .note code { font-size: 11.5px; }
+
+  /* ---------- Alternate band (unused for now; for future in-house skills) ---------- */
+  .band { margin-top: 48px; background: var(--surface); border-top: 1px solid var(--border); }
+  .band .wide { padding-bottom: 44px; }
+  .band .card { background: var(--panel); }
+  .band .card h3 { font-family: var(--font-ui); font-size: 16px; }
+  .band .card h3 a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--border-strong); }
+  .band .card h3 a:hover { color: var(--blue); border-color: var(--blue); }
+
+  .card.featured {
+    position: relative;
+    overflow: hidden;
+    border-color: var(--blue);
+    box-shadow: var(--shadow-lifted);
+  }
+  .card.featured::after {
+    content: attr(data-ribbon);
+    position: absolute;
+    top: 15px;
+    right: -52px;
+    width: 160px;
+    padding: 5px 0;
+    transform: rotate(45deg);
+    background: var(--blue);
+    color: var(--surface);
+    font-family: var(--font-data);
+    font-size: 7.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    pointer-events: none;
+  }
+  .card.featured > .card-head { padding-right: 68px; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 18px 0 40px;
+    font-size: 12.5px;
+    color: var(--ink-muted);
+  }
+  footer p { margin: 0 0 5px; }
+
+  @media (max-width: 1000px) {
+    .head-grid { grid-template-columns: 1fr; gap: 24px; }
+    .sec-head p { margin-left: 0; }
+  }
+  @media (max-width: 620px) {
+    .wide { padding: 0 16px; }
+    .masthead .wide { padding-top: 20px; padding-bottom: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="wide">
+    <div class="head-grid">
+      <div>
+        <h1><span class="rule"></span>Claude Code skills</h1>
+        <p class="lede">A curated marketplace for the team, published from <a href="https://github.com/nikonovalexcantata/ima-ai-tools"><code>nikonovalexcantata/ima-ai-tools</code></a>. Install what is useful to you and skip the rest &mdash; nothing here is required to work on any repo.</p>
+      </div>
+      <div class="setup">
+        <h2>One-time setup</h2>
+        <p>Register the marketplace once per user, then install per skill.</p>
+<div class="snip"><button class="copy" type="button" aria-label="Copy command">copy</button><pre><span class="c"># once per user</span>
+claude plugin marketplace add nikonovalexcantata/ima-ai-tools
+
+<span class="c"># then, per skill</span>
+claude plugin install grilling@ima-ai-tools
+
+<span class="c"># pick up new entries later</span>
+claude plugin marketplace update ima-ai-tools</pre></div>
+        <p>The two commands above install for your user only. Add <code>--scope project</code> to a command to write the entry into the repo&rsquo;s <code>.claude/settings.json</code>. Git tracks this file. Each person who opens the repo and trusts the folder then gets the plugin automatically. Add <code>--scope local</code> to write the entry into <code>.claude/settings.local.json</code>. Git ignores this file. The plugin is then active only for you and only in this repo.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wide">
+  <section>
+    <div class="sec-head">
+      <h2>Skills</h2>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+</div>
+
+<div class="wide">
+  <footer>
+    <p>Entries live in <a href="https://github.com/nikonovalexcantata/ima-ai-tools/blob/main/.claude-plugin/marketplace.json"><code>.claude-plugin/marketplace.json</code></a> &mdash; this page renders the same objects. To add a skill, open a PR there.</p>
+  </footer>
+</div>
+
+<script>
+  // Same objects as .claude-plugin/marketplace.json (plugins array, verbatim).
+  // After GitHub Pages is on, this constant can be replaced with:
+  //   fetch('https://raw.githubusercontent.com/nikonovalexcantata/ima-ai-tools/main/.claude-plugin/marketplace.json')
+  const MARKETPLACE = 'ima-ai-tools';
+  const SKILLS = [
+    {
+      "name": "grilling",
+      "description": "A relentless interview that stress-tests a plan, decision, or idea until the holes show.",
+      "metadata": {
+        "upstream": "https://github.com/mattpocock/skills/tree/main/skills/productivity/grilling",
+        "featured": true,
+        "whenToUse": [
+          "A plan looks solid and you want it attacked before you commit to it.",
+          "You are about to make a decision you will live with for months.",
+          "A spec has gaps you can feel but cannot name yet."
+        ],
+        "note": "Type /grill-me to start the interview on demand."
+      }
+    },
+    {
+      "name": "handoff",
+      "description": "Compacts the current conversation into a handoff document another agent can pick up.",
+      "metadata": {
+        "upstream": "https://github.com/mattpocock/skills/tree/main/skills/productivity/handoff",
+        "whenToUse": [
+          "The context window is filling up and the work is not done.",
+          "You are handing the task to another session or a teammate tomorrow.",
+          "A long investigation produced state worth carrying over, not re-deriving."
+        ]
+      }
+    },
+    {
+      "name": "skill-creator",
+      "description": "Creates new skills, improves existing ones, and measures whether they actually trigger.",
+      "metadata": {
+        "upstream": "https://github.com/anthropics/skills/tree/main/skills/skill-creator",
+        "whenToUse": [
+          "You are writing your first skill and want the canonical structure.",
+          "A skill exists but does not trigger when it should.",
+          "You want to eval a skill's performance instead of guessing."
+        ]
+      }
+    },
+    {
+      "name": "frontend-design",
+      "description": "Anthropic's guidance for distinctive, intentional UI — aesthetic direction that does not read as templated defaults.",
+      "metadata": {
+        "upstream": "https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design",
+        "whenToUse": [
+          "You are building new UI and want it to not look like a template.",
+          "An existing screen works but reads as generic defaults.",
+          "A demo or an internal page must look presentable and there is no designer around."
+        ]
+      }
+    },
+    {
+      "name": "agent-browser",
+      "description": "Browser automation CLI for agents: navigate, fill forms, click, screenshot, extract data.",
+      "metadata": {
+        "upstream": "https://github.com/vercel-labs/agent-browser/tree/main/skills/agent-browser",
+        "badges": [ { "kind": "attention", "text": "needs CLI" } ],
+        "whenToUse": [
+          "A change needs checking in a real browser, not just in tests.",
+          "You want the agent to click through a flow or take screenshots.",
+          "Scraping or automating a site would be faster than doing it by hand."
+        ],
+        "note": "Install the CLI once: npm i -g agent-browser && agent-browser install."
+      }
+    },
+    {
+      "name": "sideshow",
+      "description": "A live visual surface in your browser: the agent publishes HTML previews, your comments stream back as notifications.",
+      "metadata": {
+        "upstream": "https://github.com/modem-dev/sideshow/tree/main/plugin",
+        "badges": [ { "kind": "mcp", "text": "MCP server" } ],
+        "whenToUse": [
+          "You need to see a diagram or a UI sketch to judge it, not read a description of it.",
+          "You want to comment on a specific part and have the agent pick that up mid-task."
+        ],
+        "note": "Asks for your sideshow server URL on install; local default is http://localhost:8228."
+      }
+    },
+    {
+      "name": "context-mode",
+      "description": "Keeps big tool output out of the context window: sandboxed execution, persistent session memory, searchable findings.",
+      "metadata": {
+        "upstream": "https://github.com/mksglu/context-mode",
+        "badges": [ { "kind": "mcp", "text": "MCP + hooks" } ],
+        "whenToUse": [
+          "Long sessions die on log dumps, big diffs, or test output.",
+          "You want earlier findings searchable instead of re-derived."
+        ]
+      }
+    }
+  ];
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (ch) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch];
+    });
+  }
+
+  function card(p) {
+    const m = p.metadata || {};
+    const badges = (m.badges || []).map(function (b) {
+      const kind = b.kind === 'attention' ? '' : ' ' + esc(b.kind);
+      return '<span class="badge' + kind + '">' + esc(b.text) + '</span>';
+    }).join('');
+    const when = (m.whenToUse || []).map(function (w) {
+      return '<li>' + esc(w) + '</li>';
+    }).join('');
+    const featured = m.featured ? ' featured" data-ribbon="Recommended' : '';
+    return '<article class="card' + featured + '">' +
+      '<div class="card-head"><h3><a href="' + esc(m.upstream) + '">' + esc(p.name) + '</a></h3>' + badges + '</div>' +
+      '<p class="what">' + esc(p.description) + '</p>' +
+      '<p class="label">When to reach for it</p>' +
+      '<ul class="when">' + when + '</ul>' +
+      '<div class="install"><div class="snip"><button class="copy" type="button" aria-label="Copy command">copy</button>' +
+      '<pre>claude plugin install ' + esc(p.name) + '@' + MARKETPLACE + '</pre></div>' +
+      (m.note ? '<p class="note">' + esc(m.note) + '</p>' : '') +
+      '</div></article>';
+  }
+
+  document.getElementById('grid').innerHTML = SKILLS.map(card).join('');
+  document.getElementById('count').textContent = SKILLS.length;
+
+  // Copy the command text of the adjacent <pre>. Falls back to a hidden textarea
+  // where the async clipboard API is unavailable (non-secure origins, file://).
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.copy');
+    if (!btn) return;
+    var pre = btn.parentElement.querySelector('pre');
+    if (!pre) return;
+    var text = pre.innerText.replace(/^#[^\n]*\n?/gm, '').trim();
+    var done = function () {
+      btn.textContent = 'copied';
+      btn.dataset.done = '1';
+      setTimeout(function () { btn.textContent = 'copy'; delete btn.dataset.done; }, 1400);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done, function () { btn.textContent = 'failed'; });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch (err) { btn.textContent = 'failed'; }
+      document.body.removeChild(ta);
+    }
+  });
+</script>
+</body>
+</html>
