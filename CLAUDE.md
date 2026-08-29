@@ -41,5 +41,5 @@ Rules established by live testing (Claude Code 2.1.247):
 
 ## Conventions
 
-- All repository content is English. `README.md` follows ASD-STE100 Simplified Technical English: short sentences, active voice, one instruction per sentence, no idioms. `LICENSE` is verbatim MIT — never reword it.
-- The catalog page uses a fixed token system (oklch, Inter + IBM Plex Mono) with paired light and dark palettes. Never define a color only inside the dark-theme blocks; every color goes through a `--token` defined on bare `:root` first.
+- Content is English; `README.md` follows ASD-STE100 Simplified Technical English (short sentences, active voice, one instruction per sentence). The one exception is `LICENSE` — verbatim MIT.
+- The catalog page uses a fixed token system (oklch, Inter + IBM Plex Mono) with paired light and dark palettes. Every color goes through a `--token` defined on bare `:root`; never define one only inside the dark-theme blocks.
