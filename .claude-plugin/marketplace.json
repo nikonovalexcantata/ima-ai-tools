@@ -27,7 +27,7 @@
           "You are about to make a decision you will live with for months.",
           "A spec has gaps you can feel but cannot name yet."
         ],
-        "note": "Type /grill-me to start the interview on demand."
+        "note": "Type `/grill-me` to start the interview on demand."
       }
     },
     {
@@ -110,7 +110,7 @@
           "You want the agent to click through a flow or take screenshots.",
           "Scraping or automating a site would be faster than doing it by hand."
         ],
-        "note": "Install the CLI once: npm i -g agent-browser && agent-browser install."
+        "note": "Install the CLI once: `npm i -g agent-browser && agent-browser install`."
       }
     },
     {
@@ -130,7 +130,7 @@
           "You need to see a diagram or a UI sketch to judge it, not read a description of it.",
           "You want to comment on a specific part and have the agent pick that up mid-task."
         ],
-        "note": "Needs Node 22.18+. Run the viewer once with npx -y sideshow serve --open and keep it running. The install asks for the viewer URL (local default http://localhost:8228). Restart the session — MCP servers start on session start."
+        "note": "Needs Node 22.18+. Run the viewer once with `npx -y sideshow serve --open` and keep it running. The install asks for the viewer URL (local default `http://localhost:8228`). Restart the session — MCP servers start on session start."
       }
     },
     {

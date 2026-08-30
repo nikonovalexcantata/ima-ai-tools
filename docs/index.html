@@ -285,8 +285,14 @@
 
   .install { margin-top: auto; }
   .install pre { font-size: 12px; }
-  .note { margin: 10px 0 0; font-size: 12.5px; color: var(--ink-muted); }
-  .note code { font-size: 11.5px; }
+  .note { margin: 0 0 14px; font-size: 12.5px; color: var(--ink-muted); }
+  .note code {
+    font-size: 11px;
+    background: var(--panel);
+    border: 1px solid var(--border-faint);
+    border-radius: var(--r-sm);
+    padding: 1px 5px;
+  }
 
   /* ---------- Alternate band (unused for now; for future in-house skills) ---------- */
   .band { margin-top: 48px; background: var(--surface); border-top: 1px solid var(--border); }
@@ -399,7 +405,7 @@ claude plugin marketplace update ima-ai-tools</pre></div>
           "You are about to make a decision you will live with for months.",
           "A spec has gaps you can feel but cannot name yet."
         ],
-        "note": "Type /grill-me to start the interview on demand."
+        "note": "Type `/grill-me` to start the interview on demand."
       }
     },
     {
@@ -449,7 +455,7 @@ claude plugin marketplace update ima-ai-tools</pre></div>
           "You want the agent to click through a flow or take screenshots.",
           "Scraping or automating a site would be faster than doing it by hand."
         ],
-        "note": "Install the CLI once: npm i -g agent-browser && agent-browser install."
+        "note": "Install the CLI once: `npm i -g agent-browser && agent-browser install`."
       }
     },
     {
@@ -462,7 +468,7 @@ claude plugin marketplace update ima-ai-tools</pre></div>
           "You need to see a diagram or a UI sketch to judge it, not read a description of it.",
           "You want to comment on a specific part and have the agent pick that up mid-task."
         ],
-        "note": "Needs Node 22.18+. Run the viewer once with npx -y sideshow serve --open and keep it running. The install asks for the viewer URL (local default http://localhost:8228). Restart the session — MCP servers start on session start."
+        "note": "Needs Node 22.18+. Run the viewer once with `npx -y sideshow serve --open` and keep it running. The install asks for the viewer URL (local default `http://localhost:8228`). Restart the session — MCP servers start on session start."
       }
     },
     {
@@ -486,6 +492,11 @@ claude plugin marketplace update ima-ai-tools</pre></div>
     });
   }
 
+  // `command` spans in note text render as inline code.
+  function fmt(s) {
+    return esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
+  }
+
   function card(p) {
     const m = p.metadata || {};
     const badges = (m.badges || []).map(function (b) {
@@ -501,9 +512,9 @@ claude plugin marketplace update ima-ai-tools</pre></div>
       '<p class="what">' + esc(p.description) + '</p>' +
       '<p class="label">When to reach for it</p>' +
       '<ul class="when">' + when + '</ul>' +
+      (m.note ? '<p class="note">' + fmt(m.note) + '</p>' : '') +
       '<div class="install"><div class="snip"><button class="copy" type="button" aria-label="Copy command">copy</button>' +
       '<pre>claude plugin install ' + esc(p.name) + '@' + MARKETPLACE + '</pre></div>' +
-      (m.note ? '<p class="note">' + esc(m.note) + '</p>' : '') +
       '</div></article>';
   }
 
