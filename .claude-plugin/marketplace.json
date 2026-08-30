@@ -130,7 +130,7 @@
           "You need to see a diagram or a UI sketch to judge it, not read a description of it.",
           "You want to comment on a specific part and have the agent pick that up mid-task."
         ],
-        "note": "Asks for your sideshow server URL on install; local default is http://localhost:8228."
+        "note": "Needs Node 22.18+. Run the viewer once with npx -y sideshow serve --open and keep it running. The install asks for the viewer URL (local default http://localhost:8228). Restart the session — MCP servers start on session start."
       }
     },
     {
@@ -148,7 +148,8 @@
         "whenToUse": [
           "Long sessions die on log dumps, big diffs, or test output.",
           "You want earlier findings searchable instead of re-derived."
-        ]
+        ],
+        "note": "Needs Node. The MCP server starts on the next session."
       }
     }
   ]

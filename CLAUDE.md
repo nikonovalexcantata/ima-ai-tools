@@ -36,7 +36,7 @@ Rules established by live testing (Claude Code 2.1.247):
    - upstream `plugin.json` + `strict: false` → "conflicting manifests", the plugin installs but fails to load;
    - a `skills/` directory at the plugin root → auto-discovery registers ALL skills in it and the `skills` filter is ignored.
 2. **Whole upstream plugin** (has its own `.claude-plugin/plugin.json`): keep default strict mode, point `github` or `git-subdir` at the folder that holds `.claude-plugin/`, and add no component fields.
-3. **`metadata`** is free-form: Claude Code ignores it, the catalog page reads it. Fields in use: `upstream` (link for the card title), `whenToUse[]` (bulleted situations — must answer "when to reach for it", never restate what the skill does), `badges[]` (`{kind, text}`, kind one of `mcp|skin|ext|attention`), `note` (small print under the install command), `featured` (ribbon).
+3. **`metadata`** is free-form: Claude Code ignores it, the catalog page reads it. Fields in use: `upstream` (link for the card title), `whenToUse[]` (bulleted situations — must answer "when to reach for it", never restate what the skill does), `badges[]` (`{kind, text}`, kind one of `mcp|skin|ext|attention`), `note` (small print under the install command — must list every post-install step: required CLIs, servers to run, session restart for MCP; a user must never need the upstream repo to get the plugin working), `featured` (ribbon).
 4. No `ref` pinning — entries follow the upstream default branch so updates arrive on `claude plugin marketplace update`.
 
 ## Conventions
