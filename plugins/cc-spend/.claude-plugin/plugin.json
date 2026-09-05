@@ -1,0 +1,9 @@
+{
+  "name": "cc-spend",
+  "description": "Calculates what Claude Code usage would have cost at API token rates, for the current calendar month or a named one. Parses local session transcripts, deduplicates messages and applies current model pricing from LiteLLM. Use whenever the user asks about spend, cost, usage in dollars, token consumption over a period, how much a month of Claude Code came to, or wants to compare consumption against what they pay - even if they never say \"cc-spend\".",
+  "version": "1.0.0",
+  "author": {
+    "name": "Alex Nikonov",
+    "url": "https://github.com/nikonovalexcantata"
+  }
+}

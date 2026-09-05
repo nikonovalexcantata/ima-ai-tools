@@ -4,8 +4,23 @@
     "name": "Alex Nikonov",
     "url": "https://github.com/nikonovalexcantata"
   },
-  "description": "Curated Claude Code skills for the team. Entries reference upstream repositories; no code is vendored here.",
+  "description": "Curated Claude Code skills for the team. Entries reference upstream repositories or plugins kept under plugins/ in this repository.",
   "plugins": [
+    {
+      "name": "cc-spend",
+      "description": "Reports the API-equivalent cost of your Claude Code usage from local transcripts, for this month or a named one, and gives at most one usage tip.",
+      "source": "./plugins/cc-spend",
+      "metadata": {
+        "upstream": "https://github.com/nikonovalexcantata/ima-ai-tools/tree/main/plugins/cc-spend",
+        "featured": true,
+        "whenToUse": [
+          "The month is ending and you want the API-equivalent figure for it.",
+          "You suspect long resumed sessions are where the tokens go.",
+          "You want to compare your consumption with the subscription price."
+        ],
+        "note": "Needs Python 3.9+ on PATH. On Windows the interpreter is `python`. The first run fetches the LiteLLM price table and needs network; after that a cached copy keeps working offline. Reads only `~/.claude/projects`; nothing leaves the machine. Then type `/cc-spend`."
+      }
+    },
     {
       "name": "grilling",
       "description": "A relentless interview that stress-tests a plan, decision, or idea until the holes show.",
