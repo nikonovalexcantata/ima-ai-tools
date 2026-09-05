@@ -32,7 +32,9 @@ claude plugin marketplace update ima-ai-tools
 
 ## Catalog
 
-The page `docs/index.html` shows all of the skills.
+The catalog page shows all of the skills: https://nikonovalexcantata.github.io/ima-ai-tools/
+
+The source of the page is `docs/index.html`.
 
 ## Ask for a new skill
 
